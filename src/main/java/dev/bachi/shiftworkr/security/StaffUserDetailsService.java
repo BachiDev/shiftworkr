@@ -2,6 +2,7 @@ package dev.bachi.shiftworkr.security;
 
 import dev.bachi.shiftworkr.domain.StaffMember;
 import dev.bachi.shiftworkr.repository.StaffMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,14 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class StaffUserDetailsService implements UserDetailsService {
 
   private final StaffMemberRepository staffMembers;
-
-  // Explicit constructor (see DemoSeedService for why: no Lombok constructors).
-  public StaffUserDetailsService(StaffMemberRepository staffMembers) {
-    this.staffMembers = staffMembers;
-  }
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
