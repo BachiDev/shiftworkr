@@ -193,6 +193,10 @@
                methods from constructors. -->
           <showWarnings>true</showWarnings>
           <failOnWarning>true</failOnWarning>
+          <!-- Full recompile every build: incremental compilation + Lombok has
+               produced torn .class files (ClassFormatError) that heal on clean,
+               i.e. the worst kind of flake. Full compile costs seconds here. -->
+          <useIncrementalCompilation>false</useIncrementalCompilation>
           <compilerArgs>
             <arg>-Xlint:all,-options,-processing,-serial,-this-escape</arg>
           </compilerArgs>
