@@ -8,22 +8,36 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: shiftworkr
+          POSTGRES_USER: shiftworkr
+          POSTGRES_PASSWORD: shiftworkr
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U shiftworkr"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
           cache: maven
       - name: Verify (unit + Testcontainers + Karibu)
         run: mvn -B verify
-      - name: Flyway validate
-        run: mvn -B flyway:validate -Dspring.profiles.active=dev
+      - name: Migration check (Flyway migrate + validate on ephemeral PG)
+        run: mvn -B flyway:migrate
 
   docker-build:
     if: github.ref == 'refs/heads/main'
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: docker build -t shiftworkr:ci .
