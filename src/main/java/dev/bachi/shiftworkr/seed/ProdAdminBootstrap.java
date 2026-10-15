@@ -5,7 +5,6 @@ import dev.bachi.shiftworkr.domain.Role;
 import dev.bachi.shiftworkr.domain.StaffMember;
 import dev.bachi.shiftworkr.repository.ShiftTypeRepository;
 import dev.bachi.shiftworkr.repository.StaffMemberRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -15,17 +14,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Production bootstrap: creates ONLY the initial admin from environment secrets.
+ * Production bootstrap: creates ONLY the initial admin from environment
+ * secrets.
  * Fails fast when secrets are missing — a live site must never boot unsecured.
  */
 @Service
 @Profile("prod")
-@RequiredArgsConstructor
 public class ProdAdminBootstrap implements ApplicationRunner {
 
   private final StaffMemberRepository staffMembers;
   private final PasswordEncoder passwordEncoder;
   private final ShiftTypeRepository shiftTypes;
+
+  public ProdAdminBootstrap(StaffMemberRepository staffMembers,
+      PasswordEncoder passwordEncoder, ShiftTypeRepository shiftTypes) {
+    this.staffMembers = staffMembers;
+    this.passwordEncoder = passwordEncoder;
+    this.shiftTypes = shiftTypes;
+  }
 
   @Value("${ADMIN_EMAIL:}")
   private String adminEmail;

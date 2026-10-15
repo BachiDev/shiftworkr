@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
@@ -51,7 +50,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Profile("demo")
-@RequiredArgsConstructor
 public class DemoSeedService implements ApplicationRunner {
 
   static final ZoneId ZONE = ZoneId.of("Europe/Berlin");
@@ -67,6 +65,23 @@ public class DemoSeedService implements ApplicationRunner {
   private final SwapRequestRepository swaps;
   private final AuditLogRepository auditLogs;
   private final PasswordEncoder passwordEncoder;
+
+  public DemoSeedService(WardRepository wards, ShiftTypeRepository shiftTypes,
+      StaffMemberRepository staffMembers, RosterPeriodRepository rosterPeriods,
+      ShiftRequirementRepository requirements, ShiftAssignmentRepository assignments,
+      LeaveRequestRepository leaves, SwapRequestRepository swaps,
+      AuditLogRepository auditLogs, PasswordEncoder passwordEncoder) {
+    this.wards = wards;
+    this.shiftTypes = shiftTypes;
+    this.staffMembers = staffMembers;
+    this.rosterPeriods = rosterPeriods;
+    this.requirements = requirements;
+    this.assignments = assignments;
+    this.leaves = leaves;
+    this.swaps = swaps;
+    this.auditLogs = auditLogs;
+    this.passwordEncoder = passwordEncoder;
+  }
 
   private record Seed(String first, String last, Role role, Qualification qual,
       boolean lead, int hours) {
