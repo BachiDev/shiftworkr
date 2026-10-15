@@ -7,13 +7,11 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
-    properties:
-      hibernate:
-        jdbc:
-          "time_zone": UTC
   flyway:
     enabled: true
     validate-on-migrate: true
+    # Deliberately false: every environment starts from versioned V1 migrations,
+    # never by baselining a pre-existing schema.
     baseline-on-migrate: false
   security:
     user:

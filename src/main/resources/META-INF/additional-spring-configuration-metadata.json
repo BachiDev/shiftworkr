@@ -1,6 +1,27 @@
 {
   "properties": [
     {
+      "name": "spring.flyway.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether Flyway auto-migration runs at startup.",
+      "sourceType": "org.springframework.boot.autoconfigure.flyway.FlywayProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "spring.flyway.validate-on-migrate",
+      "type": "java.lang.Boolean",
+      "description": "Validate applied migrations against available ones before migrating.",
+      "sourceType": "org.springframework.boot.autoconfigure.flyway.FlywayProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "spring.flyway.baseline-on-migrate",
+      "type": "java.lang.Boolean",
+      "description": "Baseline a non-empty schema on first migrate instead of failing. Must stay false here: all environments start from versioned V1.",
+      "sourceType": "org.springframework.boot.autoconfigure.flyway.FlywayProperties",
+      "defaultValue": false
+    },
+    {
       "name": "spring.flyway.url",
       "type": "java.lang.String",
       "description": "JDBC URL Flyway uses. Dev: same as the datasource. Prod: Neon DIRECT endpoint (port 5432) — DDL must bypass PgBouncer; the app runtime uses the pooled endpoint instead.",
