@@ -113,7 +113,7 @@ flowchart TD
 | **Persistence & ORM** | **Spring Data JPA / Hibernate 6** | Enterprise repositories, custom JPQL queries, optimistic locking (`@Version`) + pessimistic locks for swaps. |
 | **Schema Migrations** | **Flyway** | Production-grade versioned database evolution (`V1__init.sql`, etc.). Same migrations run against local PG and Neon. Checked in CI. |
 | **Reporting / Export** | **OpenPDF + Apache POI** | Weekly printable PDF ward bulletin + monthly Excel audit workbook. |
-| **Containerization** | **Docker (Multi-stage Temurin 21 Jammy)** | `jammy` base for ARM reliability (Vaadin Node frontend build). Non-root user, tuned JVM flags. |
+| **Containerization** | **Docker (Temurin 21: Jammy builder + Alpine runtime)** | Jammy builder for Vaadin Node/glibc reliability; Alpine runtime for minimal CVE surface. Non-root user, tuned JVM flags. |
 | **Reverse Proxy & SSL** | **Caddy Server** | Automated Let's Encrypt SSL, reverse proxy to Spring Boot container. Neon needs no proxy. |
 | **Testing** | **JUnit 5 + Testcontainers + Karibu** | Unit tests for rules, real Postgres integration tests, headless Vaadin UI tests. No Playwright in MVP (Karibu is sufficient). |
 
@@ -399,23 +399,23 @@ Gated behind Spring profile `demo` (active on preview deployments, **disabled in
   - Flyway `validate + migrate` on startup in both environments.
 * **Ops:** Caddy auto-HTTPS, `restart: unless-stopped`, `/actuator/health` for liveness (public; all other actuator endpoints locked to `ADMIN`), `journald` log rotation. Neon branching for pre-migration safety. Neon scale-to-zero causes 3–5s cold start on first hit after ~5 min idle — accepted for MVP; optional 5-min uptime ping (e.g. GitHub Actions cron → `/actuator/health`) as post-MVP polish for demo smoothness.
 
-### 8.2 Optimized Multi-Stage Dockerfile (Jammy / ARM-safe)
+### 8.2 Optimized Multi-Stage Dockerfile (Jammy builder / Alpine runtime)
 
 ```dockerfile
-# Stage 1: Build & Vaadin Production Bundle
+# Stage 1: Build & Vaadin Production Bundle (jammy = glibc for Vaadin Node build)
 FROM eclipse-temurin:21-jdk-jammy AS builder
-WORKDIR /app
-COPY pom.xml mvnw ./
-COPY .mvn .mvn
-RUN ./mvnw dependency:go-offline -B
+# ... pinned Maven 3.9.9 install, then mvn clean package -Pproduction ...
+COPY pom.xml ./
+RUN mvn dependency:go-offline -B
 COPY src src
 COPY frontend frontend
-RUN ./mvnw clean package -Pproduction -DskipTests
+RUN mvn clean package -Pproduction -DskipTests
 
-# Stage 2: Minimal Production JRE Runtime
-FROM eclipse-temurin:21-jre-jammy
+# Stage 2: Minimal Production JRE Runtime (alpine = smallest CVE surface;
+# runtime only executes java -jar, no Node/glibc needed)
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 COPY --from=builder /app/target/shiftworkr-*.jar app.jar
 
@@ -424,7 +424,7 @@ ENV JAVA_OPTS="-XX:+UseG1GC -XX:MaxRAMPercentage=75.0 -XX:+ExitOnOutOfMemoryErro
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
 ```
 
-`jammy` (not `alpine`) chosen for reliable Vaadin frontend Node builds and ARM glibc compatibility.
+Split-base rationale: `jammy` builder for reliable Vaadin frontend Node builds and ARM glibc compatibility; `alpine` runtime for minimal attack surface (full Ubuntu userspace in the runtime tripped a HIGH CVE in image scans). No Maven wrapper in repo — the builder installs a pinned Maven binary.
 
 ---
 

@@ -20,10 +20,11 @@ COPY src src
 COPY frontend frontend
 RUN mvn clean package -Pproduction -DskipTests
 
-# Stage 2: Minimal Production JRE Runtime
-FROM eclipse-temurin:21-jre-jammy
+# Stage 2: Minimal Production JRE Runtime (alpine = smallest CVE surface;
+# glibc only matters for the Vaadin Node build in the builder stage)
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 COPY --from=builder /app/target/shiftworkr-*.jar app.jar
 
