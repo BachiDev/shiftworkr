@@ -106,7 +106,7 @@ flowchart TD
 | :--- | :--- | :--- |
 | **Runtime & Language** | **Java 21 LTS** | Virtual threads (Project Loom), pattern matching, records, sealed types. |
 | **Application Framework** | **Spring Boot 3.5.x** | Enterprise gold standard; flawless freelance marketability. |
-| **Frontend Framework** | **Vaadin 24.8+ (Flow)** | 100% Java type-safe UI, zero client API glue, built-in WebSocket `@Push`. 24.8+ required for Spring Boot 3.5 / Framework 7 compatibility. |
+| **Frontend Framework** | **Vaadin 24.10 (Flow)** | 100% Java type-safe UI, zero client API glue, built-in WebSocket `@Push`. 24.8+ required for Boot 3.5 / Framework 7; pinned to **24.10.7 (last free maintained 24.x** — earlier minors print an unmaintained-version banner). |
 | **Security & Auth** | **Spring Security 6** | Role-based view access (`@RolesAllowed` on view classes), session fixation protection, Vaadin CSRF handling. |
 | **Database (dev/test)** | **PostgreSQL 16 (local Docker + Testcontainers)** | Fast offline iteration, real-PG integration tests. Compose service `db` only in `docker-compose.dev.yml`. |
 | **Database (prod)** | **PostgreSQL 16 on Neon (live site only)** | Managed backups, branching, scale-to-zero + pooling. App connects via `JDBC_URL` secret + `sslmode=require`. |

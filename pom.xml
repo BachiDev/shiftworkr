@@ -20,7 +20,7 @@
 
   <properties>
     <java.version>21</java.version>
-    <vaadin.version>24.8.17</vaadin.version>
+    <vaadin.version>24.10.7</vaadin.version>
     <karibu.version>2.7.3</karibu.version>
     <flyway.url>jdbc:postgresql://localhost:5432/shiftworkr</flyway.url>
     <flyway.user>shiftworkr</flyway.user>
