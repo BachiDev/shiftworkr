@@ -1,0 +1,9 @@
+spring:
+  config:
+    activate:
+      on-profile: demo
+# Demo profile inherits datasource from active dev/prod profile.
+# Enables seed data + one-click demo logins (never active in production).
+shiftworkr:
+  demo:
+    enabled: true

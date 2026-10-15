@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    # Neon pooled endpoint (PgBouncer, port 6543) for runtime traffic only
+    url: ${JDBC_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 8
+      keepalive-time: 30000
+      idle-timeout: 600000
+      data-source-properties:
+        prepareThreshold: 0
+        sslmode: require
+  flyway:
+    # Neon direct endpoint (port 5432) — DDL must bypass PgBouncer
+    url: ${FLYWAY_URL}
+    user: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    locations: classpath:db/migration
+
+vaadin:
+  productionMode: true

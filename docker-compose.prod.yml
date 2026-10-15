@@ -1,0 +1,37 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shiftworkr-app
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      JDBC_URL: ${JDBC_URL:?Set pooled Neon JDBC URL (port 6543)}
+      FLYWAY_URL: ${FLYWAY_URL:?Set direct Neon JDBC URL (port 5432)}
+      DB_USERNAME: ${DB_USERNAME:?Set Neon role}
+      DB_PASSWORD: ${DB_PASSWORD:?Set Neon password}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@shiftworkr.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set initial admin password}
+    expose:
+      - "8080"
+    ports:
+      - "127.0.0.1:8080:8080"
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: shiftworkr-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  caddy_data:
+  caddy_config:

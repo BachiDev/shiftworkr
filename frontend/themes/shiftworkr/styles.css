@@ -1,0 +1,49 @@
+/* ShiftWorkr theme — Lumo Dark + bachi.dev tokens (zinc-950 base, violet/fuchsia accents) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+html {
+  --lumo-base-color: #09090b; /* zinc-950 */
+  --lumo-body-text-color: #e4e4e7;
+  --lumo-secondary-text-color: #a1a1aa;
+  --lumo-primary-color: #8b5cf6; /* violet-500 */
+  --lumo-primary-text-color: #a78bfa; /* violet-400 */
+  --lumo-primary-contrast-color: #ffffff;
+  --lumo-error-color: #f43f5e; /* rose-500 */
+  --lumo-success-color: #10b981; /* emerald-500 */
+  --lumo-font-family: 'Inter', 'Geist Sans', system-ui, sans-serif;
+}
+
+body {
+  background: #09090b;
+  color: #e4e4e7;
+  letter-spacing: -0.02em;
+}
+
+vaadin-app-layout::part(drawer) {
+  background: #18181b; /* zinc-900 */
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+vaadin-app-layout::part(navbar) {
+  background: #09090b;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mono, .shift-badge {
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+}
+
+/* Shift badges (board arrives in Phase 2; classes reserved now) */
+.shift-early { background: rgba(139, 92, 246, 0.15); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.4); }
+.shift-late { background: rgba(14, 165, 233, 0.15); color: #7dd3fc; border: 1px solid rgba(14, 165, 233, 0.4); }
+.shift-night { background: rgba(217, 70, 239, 0.15); color: #f0abfc; border: 1px solid rgba(217, 70, 239, 0.4); }
+.shift-off { background: rgba(39, 39, 42, 0.4); color: #71717a; border: 1px solid rgba(63, 63, 70, 0.2); }
+.shift-vacation { background: rgba(245, 158, 11, 0.12); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3); }
+.shift-sick { background: rgba(244, 63, 94, 0.12); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.3); }
+
+.profile-pill {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #18181b;
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+}
