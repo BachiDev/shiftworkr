@@ -1,4 +1,6 @@
 # Stage 1: Build & Vaadin Production Bundle
+# NOTE: jdk-jammy builder carries 1 HIGH (libssl3 CVE-2026-84782, fix .30 not yet in
+# Ubuntu jammy as of 2026-10-15). Builder-only, never shipped — runtime below is clean.
 FROM eclipse-temurin:21-jdk-jammy AS builder
 
 # Maven (no wrapper in repo) — pinned binary from Apache archive
