@@ -74,7 +74,7 @@ flowchart TD
         WS[WebSocket / Server Push]
     end
 
-    subgraph Server ["Spring Boot 3.3+ (Java 21 LTS) on OCI ARM VM"]
+    subgraph Server ["Spring Boot 3.5+ (Java 21 LTS) on OCI ARM VM"]
         SEC[Spring Security 6 - RBAC & WebSecurity]
         VAADIN[Vaadin Flow Engine & UI Components]
         SVC[Business Service Layer & Rule Engine]
@@ -105,8 +105,8 @@ flowchart TD
 | Layer | Technology | Justification |
 | :--- | :--- | :--- |
 | **Runtime & Language** | **Java 21 LTS** | Virtual threads (Project Loom), pattern matching, records, sealed types. |
-| **Application Framework** | **Spring Boot 3.3.x** | Enterprise gold standard; flawless freelance marketability. |
-| **Frontend Framework** | **Vaadin 24.4+ (Flow)** | 100% Java type-safe UI, zero client API glue, built-in WebSocket `@Push`. |
+| **Application Framework** | **Spring Boot 3.5.x** | Enterprise gold standard; flawless freelance marketability. |
+| **Frontend Framework** | **Vaadin 24.8+ (Flow)** | 100% Java type-safe UI, zero client API glue, built-in WebSocket `@Push`. 24.8+ required for Spring Boot 3.5 / Framework 7 compatibility. |
 | **Security & Auth** | **Spring Security 6** | Role-based view access (`@RolesAllowed` on view classes), session fixation protection, Vaadin CSRF handling. |
 | **Database (dev/test)** | **PostgreSQL 16 (local Docker + Testcontainers)** | Fast offline iteration, real-PG integration tests. Compose service `db` only in `docker-compose.dev.yml`. |
 | **Database (prod)** | **PostgreSQL 16 on Neon (live site only)** | Managed backups, branching, scale-to-zero + pooling. App connects via `JDBC_URL` secret + `sslmode=require`. |
@@ -433,7 +433,7 @@ Split-base rationale: `jammy` builder for reliable Vaadin frontend Node builds a
 > MVP cuts applied to fit ~11 days: no Weekly Detailed View, no `EDU` leave type, no monthly PDF, no Playwright. These move to Post-MVP.
 
 ### Phase 0: Project Setup & Design System Tokens (Day 1)
-- [x] Initialize Spring Boot 3.3 project (Java 21, Spring Data JPA, Spring Security, Vaadin 24, Flyway, PostgreSQL, Lombok).
+- [x] Initialize Spring Boot 3.5 project (Java 21, Spring Data JPA, Spring Security, Vaadin 24, Flyway, PostgreSQL, Lombok).
 - [x] Configure `pom.xml` with production profiles, Testcontainers, and Karibu-Testing dependencies.
 - [x] Set up Vaadin Lumo Dark custom theme tokens (`styles.css`) matching `bachi.dev` colors (`zinc-950`, `zinc-900`, `violet-500`, `fuchsia-500`).
 - [x] Configure Base Application Layout with responsive sidebar navigation and user profile pill.
