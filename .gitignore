@@ -11,5 +11,8 @@ vite.generated.ts
 types.d.ts
 tsconfig.json
 src/main/frontend/generated/
+# Vaadin's pre-compiled dev bundle goes stale silently (served instead of fresh
+# sources with no warning); always rebuild locally, never commit.
+src/main/bundles/dev.bundle
 .DS_Store
 Thumbs.db

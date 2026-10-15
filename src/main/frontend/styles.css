@@ -1,15 +1,43 @@
-/* ShiftWorkr theme — Lumo Dark + bachi.dev tokens (zinc-950 base, violet/fuchsia accents) */
+/* ShiftWorkr theme — bachi.dev dark tokens on Lumo 25.
+ *
+ * Lumo 25 resolves its palette via the native light-dark() function, which keys
+ * off the page color-scheme. `color-scheme: dark` below flips the ENTIRE Lumo
+ * system (contrast scale, text, dividers, component surfaces) to dark variants.
+ * Our brand tokens then override the accent families completely (base color plus
+ * the full primary/error/success/warning ramps — partial overrides mix hues).
+ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 html {
+  color-scheme: dark;
+
   --lumo-base-color: #09090b; /* zinc-950 */
-  --lumo-body-text-color: #e4e4e7;
-  --lumo-secondary-text-color: #a1a1aa;
+  --lumo-body-text-color: #e4e4e7; /* zinc-200 */
+  --lumo-secondary-text-color: #a1a1aa; /* zinc-400 */
+
   --lumo-primary-color: #8b5cf6; /* violet-500 */
+  --lumo-primary-color-50pct: rgba(139, 92, 246, 0.5);
+  --lumo-primary-color-10pct: rgba(139, 92, 246, 0.13);
   --lumo-primary-text-color: #a78bfa; /* violet-400 */
   --lumo-primary-contrast-color: #ffffff;
+
   --lumo-error-color: #f43f5e; /* rose-500 */
+  --lumo-error-color-50pct: rgba(244, 63, 94, 0.5);
+  --lumo-error-color-10pct: rgba(244, 63, 94, 0.12);
+  --lumo-error-text-color: #fda4af; /* rose-300 */
+  --lumo-error-contrast-color: #ffffff;
+
   --lumo-success-color: #10b981; /* emerald-500 */
+  --lumo-success-color-50pct: rgba(16, 185, 129, 0.5);
+  --lumo-success-color-10pct: rgba(16, 185, 129, 0.12);
+  --lumo-success-text-color: #6ee7b7; /* emerald-300 */
+  --lumo-success-contrast-color: #ffffff;
+
+  --lumo-warning-color: #f59e0b; /* amber-500 */
+  --lumo-warning-color-10pct: rgba(245, 158, 11, 0.2);
+  --lumo-warning-text-color: #fcd34d; /* amber-300 */
+  --lumo-warning-contrast-color: #09090b;
+
   --lumo-font-family: 'Inter', 'Geist Sans', system-ui, sans-serif;
 }
 

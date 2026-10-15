@@ -1,5 +1,6 @@
 package dev.bachi.shiftworkr.ui;
 
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Push;
@@ -11,7 +12,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
  * dark tokens via CSS, WebSocket push through Caddy (see forward-headers-strategy).
  */
 @StyleSheet(Lumo.STYLESHEET)
-@StyleSheet("styles.css")
+@CssImport("./styles.css")
 @Push
 @PWA(name = "ShiftWorkr", shortName = "ShiftWorkr")
 public class ShiftworkrAppShell implements AppShellConfigurator {
