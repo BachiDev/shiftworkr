@@ -1,6 +1,6 @@
 # ShiftWorkr — Senior Portfolio Project Plan
 
-> **Positioning:** An intelligent, enterprise-grade hospital ward scheduling and compliance management platform built with **Java 21, Spring Boot 3, and Vaadin 24 Flow**. Designed as a flagship freelance portfolio piece showcasing complex business logic, reactive real-time collaboration, role-based workflows, and rock-solid software architecture.
+> **Positioning:** An intelligent, enterprise-grade hospital ward scheduling and compliance management platform built with **Java 21, Spring Boot 4, and Vaadin 25 Flow**. Designed as a flagship freelance portfolio piece showcasing complex business logic, reactive real-time collaboration, role-based workflows, and rock-solid software architecture.
 
 - **Author / Developer:** Fabian Bachmayer ([bachi.dev](https://bachi.dev))
 - **Live Target:** Hosted on **Oracle Cloud Infrastructure (OCI) Always-Free Tier** with automatic SSL via Caddy. Production database on **Neon Postgres**. Local development and integration tests use a **local PostgreSQL 16 container / Testcontainers**.
@@ -74,8 +74,8 @@ flowchart TD
         WS[WebSocket / Server Push]
     end
 
-    subgraph Server ["Spring Boot 3.5+ (Java 21 LTS) on OCI ARM VM"]
-        SEC[Spring Security 6 - RBAC & WebSecurity]
+    subgraph Server ["Spring Boot 4.1+ (Java 21 LTS) on OCI ARM VM"]
+        SEC[Spring Security 7 - RBAC & WebSecurity]
         VAADIN[Vaadin Flow Engine & UI Components]
         SVC[Business Service Layer & Rule Engine]
         EXP[Export Engine - OpenPDF & Apache POI]
@@ -105,9 +105,9 @@ flowchart TD
 | Layer | Technology | Justification |
 | :--- | :--- | :--- |
 | **Runtime & Language** | **Java 21 LTS** | Virtual threads (Project Loom), pattern matching, records, sealed types. |
-| **Application Framework** | **Spring Boot 3.5.x** | Enterprise gold standard; flawless freelance marketability. |
-| **Frontend Framework** | **Vaadin 24.10 (Flow)** | 100% Java type-safe UI, zero client API glue, built-in WebSocket `@Push`. 24.8+ required for Boot 3.5 / Framework 7; pinned to **24.10.7 (last free maintained 24.x** — earlier minors print an unmaintained-version banner). |
-| **Security & Auth** | **Spring Security 6** | Role-based view access (`@RolesAllowed` on view classes), session fixation protection, Vaadin CSRF handling. |
+| **Application Framework** | **Spring Boot 4.1.x** | Enterprise gold standard; flawless freelance marketability. |
+| **Frontend Framework** | **Vaadin 25.3 (Flow)** | 100% Java type-safe UI, zero client API glue, built-in WebSocket `@Push`. Vaadin 25 (free maintained line) requires Boot 4 / Framework 7 / Java 21+. |
+| **Security & Auth** | **Spring Security 7** | Role-based view access (`@RolesAllowed` on view classes), session fixation protection, Vaadin CSRF handling. |
 | **Database (dev/test)** | **PostgreSQL 16 (local Docker + Testcontainers)** | Fast offline iteration, real-PG integration tests. Compose service `db` only in `docker-compose.dev.yml`. |
 | **Database (prod)** | **PostgreSQL 16 on Neon (live site only)** | Managed backups, branching, scale-to-zero + pooling. App connects via `JDBC_URL` secret + `sslmode=require`. |
 | **Persistence & ORM** | **Spring Data JPA / Hibernate 6** | Enterprise repositories, custom JPQL queries, optimistic locking (`@Version`) + pessimistic locks for swaps. |
@@ -342,7 +342,7 @@ Gated behind Spring profile `demo` (active on preview deployments, **disabled in
 ## 6. Security & Authorization Architecture
 
 ### 6.1 Authentication & RBAC
-* Built on **Spring Security 6** with Vaadin's `VaadinWebSecurity`.
+* Built on **Spring Security 7** with Vaadin's `VaadinWebSecurity`.
 * Password hashing with `BCryptPasswordEncoder(strength = 12)` (~250 ms on ARM; acceptable; seeding 16 users is one-time cost).
 * Exactly two roles: `ROLE_ADMIN` (Ward Lead / manager) and `ROLE_NURSE` (staff). Lead coverage is a `lead_qualified` flag, not a role.
 * View-level access control enforced via `@RolesAllowed` on view classes:
@@ -433,7 +433,7 @@ Split-base rationale: `jammy` builder for reliable Vaadin frontend Node builds a
 > MVP cuts applied to fit ~11 days: no Weekly Detailed View, no `EDU` leave type, no monthly PDF, no Playwright. These move to Post-MVP.
 
 ### Phase 0: Project Setup & Design System Tokens (Day 1)
-- [x] Initialize Spring Boot 3.5 project (Java 21, Spring Data JPA, Spring Security, Vaadin 24, Flyway, PostgreSQL, Lombok).
+- [x] Initialize Spring Boot 4.1 project (Java 21, Spring Data JPA, Spring Security, Vaadin 25, Flyway, PostgreSQL, Lombok).
 - [x] Configure `pom.xml` with production profiles, Testcontainers, and Karibu-Testing dependencies.
 - [x] Set up Vaadin Lumo Dark custom theme tokens (`styles.css`) matching `bachi.dev` colors (`zinc-950`, `zinc-900`, `violet-500`, `fuchsia-500`).
 - [x] Configure Base Application Layout with responsive sidebar navigation and user profile pill.
