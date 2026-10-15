@@ -31,12 +31,10 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
@@ -52,7 +50,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Profile("demo")
-@RequiredArgsConstructor
 public class DemoSeedService implements ApplicationRunner {
 
   static final ZoneId ZONE = ZoneId.of("Europe/Berlin");
@@ -69,6 +66,26 @@ public class DemoSeedService implements ApplicationRunner {
   private final AuditLogRepository auditLogs;
   private final PasswordEncoder passwordEncoder;
 
+  // Explicit constructor: Lombok @RequiredArgsConstructor confuses the IDE compiler
+  // (phantom "flexible constructor bodies" error), so this project wires
+  // constructors by hand.
+  public DemoSeedService(WardRepository wards, ShiftTypeRepository shiftTypes,
+      StaffMemberRepository staffMembers, RosterPeriodRepository rosterPeriods,
+      ShiftRequirementRepository requirements, ShiftAssignmentRepository assignments,
+      LeaveRequestRepository leaves, SwapRequestRepository swaps,
+      AuditLogRepository auditLogs, PasswordEncoder passwordEncoder) {
+    this.wards = wards;
+    this.shiftTypes = shiftTypes;
+    this.staffMembers = staffMembers;
+    this.rosterPeriods = rosterPeriods;
+    this.requirements = requirements;
+    this.assignments = assignments;
+    this.leaves = leaves;
+    this.swaps = swaps;
+    this.auditLogs = auditLogs;
+    this.passwordEncoder = passwordEncoder;
+  }
+
   private record Seed(String first, String last, Role role, Qualification qual,
       boolean lead, int hours) {
   }
@@ -80,8 +97,10 @@ public class DemoSeedService implements ApplicationRunner {
       return;
     }
     Ward ward = wards.save(new Ward("Cardiology Ward 4B", WARD_CODE));
-    Map<String, ShiftType> types = ReferenceData.shiftTypes(shiftTypes).stream()
-        .collect(Collectors.toMap(ShiftType::getCode, Function.identity()));
+    Map<String, ShiftType> types = new HashMap<>();
+    for (ShiftType type : ReferenceData.shiftTypes(shiftTypes)) {
+      types.put(type.getCode(), type);
+    }
 
     String hash = passwordEncoder.encode("demo1234");
     Map<String, StaffMember> staff = seedStaff(ward, hash);
@@ -121,11 +140,14 @@ public class DemoSeedService implements ApplicationRunner {
         new Seed("Leon", "Krause", Role.NURSE, Qualification.RN, true, 38),
         new Seed("Hannah", "Wolf", Role.NURSE, Qualification.ASSISTANT, false, 20),
         new Seed("Max", "Braun", Role.NURSE, Qualification.RN, false, 30));
-    return seeds.stream()
-        .map(s -> staffMembers.save(new StaffMember(ward,
-            s.first().toLowerCase() + "." + s.last().toLowerCase() + "@shiftworkr.local",
-            hash, s.first(), s.last(), s.role(), s.qual(), s.lead(), s.hours())))
-        .collect(Collectors.toMap(StaffMember::getEmail, Function.identity()));
+    Map<String, StaffMember> staff = new HashMap<>();
+    for (Seed s : seeds) {
+      StaffMember saved = staffMembers.save(new StaffMember(ward,
+          s.first().toLowerCase() + "." + s.last().toLowerCase() + "@shiftworkr.local",
+          hash, s.first(), s.last(), s.role(), s.qual(), s.lead(), s.hours()));
+      staff.put(saved.getEmail(), saved);
+    }
+    return staff;
   }
 
   private void seedRequirements(Ward ward, Map<String, ShiftType> types) {
@@ -171,19 +193,52 @@ public class DemoSeedService implements ApplicationRunner {
       int size, LocalDate date) {
     List<StaffMember> team = new ArrayList<>(pool.subList(0, size));
     pool.subList(0, size).clear();
-    if (team.stream().noneMatch(StaffMember::isLeadQualified)) {
-      StaffMember lead = pool.stream().filter(StaffMember::isLeadQualified).findFirst()
-          .orElseThrow(() -> new IllegalStateException("No lead left for " + type.getCode()));
+    if (!containsLead(team)) {
+      StaffMember lead = firstLead(pool);
+      if (lead == null) {
+        throw new IllegalStateException("No lead left for " + type.getCode());
+      }
       pool.remove(lead);
-      StaffMember swapped = team.stream().filter(s -> !s.isLeadQualified()).findFirst()
-          .orElseThrow(() -> new IllegalStateException("No non-lead to swap in " + type.getCode()));
+      StaffMember swapped = firstNonLead(team);
+      if (swapped == null) {
+        throw new IllegalStateException("No non-lead to swap in " + type.getCode());
+      }
       team.remove(swapped);
       team.add(lead);
       pool.add(swapped);
     }
-    return team.stream()
-        .map(s -> new ShiftAssignment(ward, s, type, date, AssignmentStatus.SCHEDULED))
-        .toList();
+    List<ShiftAssignment> result = new ArrayList<>();
+    for (StaffMember member : team) {
+      result.add(new ShiftAssignment(ward, member, type, date, AssignmentStatus.SCHEDULED));
+    }
+    return result;
+  }
+
+  private static boolean containsLead(List<StaffMember> team) {
+    for (StaffMember member : team) {
+      if (member.isLeadQualified()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static StaffMember firstLead(List<StaffMember> pool) {
+    for (StaffMember member : pool) {
+      if (member.isLeadQualified()) {
+        return member;
+      }
+    }
+    return null;
+  }
+
+  private static StaffMember firstNonLead(List<StaffMember> team) {
+    for (StaffMember member : team) {
+      if (!member.isLeadQualified()) {
+        return member;
+      }
+    }
+    return null;
   }
 
   private void forceShift(StaffMember staff, LocalDate date, ShiftType type) {

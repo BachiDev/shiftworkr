@@ -2,7 +2,6 @@ package dev.bachi.shiftworkr.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,8 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "roster_period",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"ward_id", "year", "month"}))
+@Table(name = "roster_period", uniqueConstraints = @UniqueConstraint(columnNames = { "ward_id", "year", "month" }))
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

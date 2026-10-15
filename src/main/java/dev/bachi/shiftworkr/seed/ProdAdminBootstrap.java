@@ -5,7 +5,6 @@ import dev.bachi.shiftworkr.domain.Role;
 import dev.bachi.shiftworkr.domain.StaffMember;
 import dev.bachi.shiftworkr.repository.ShiftTypeRepository;
 import dev.bachi.shiftworkr.repository.StaffMemberRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -20,12 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Profile("prod")
-@RequiredArgsConstructor
 public class ProdAdminBootstrap implements ApplicationRunner {
 
   private final StaffMemberRepository staffMembers;
   private final PasswordEncoder passwordEncoder;
   private final ShiftTypeRepository shiftTypes;
+
+  // Explicit constructor (see DemoSeedService for why: no Lombok constructors).
+  public ProdAdminBootstrap(StaffMemberRepository staffMembers,
+      PasswordEncoder passwordEncoder, ShiftTypeRepository shiftTypes) {
+    this.staffMembers = staffMembers;
+    this.passwordEncoder = passwordEncoder;
+    this.shiftTypes = shiftTypes;
+  }
 
   @Value("${ADMIN_EMAIL:}")
   private String adminEmail;
