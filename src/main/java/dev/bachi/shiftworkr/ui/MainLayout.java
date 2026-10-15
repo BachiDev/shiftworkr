@@ -9,8 +9,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import dev.bachi.shiftworkr.ui.views.DashboardView;
+import jakarta.annotation.security.RolesAllowed;
 
 /** Phase 0 responsive shell: sidebar nav + top bar + user profile pill placeholder. */
+@RolesAllowed({"ADMIN", "NURSE"})
 public class MainLayout extends AppLayout {
 
   public MainLayout() {
