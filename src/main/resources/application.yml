@@ -10,7 +10,7 @@ spring:
     properties:
       hibernate:
         jdbc:
-          time_zone: UTC
+          "time_zone": UTC
   flyway:
     enabled: true
     validate-on-migrate: true

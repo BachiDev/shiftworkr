@@ -1,0 +1,35 @@
+{
+  "properties": [
+    {
+      "name": "spring.flyway.url",
+      "type": "java.lang.String",
+      "description": "JDBC URL Flyway uses. Dev: same as the datasource. Prod: Neon DIRECT endpoint (port 5432) — DDL must bypass PgBouncer; the app runtime uses the pooled endpoint instead.",
+      "sourceType": "org.springframework.boot.autoconfigure.flyway.FlywayProperties"
+    },
+    {
+      "name": "spring.flyway.user",
+      "type": "java.lang.String",
+      "description": "Database user Flyway migrates with.",
+      "sourceType": "org.springframework.boot.autoconfigure.flyway.FlywayProperties"
+    },
+    {
+      "name": "spring.flyway.password",
+      "type": "java.lang.String",
+      "description": "Database password Flyway migrates with.",
+      "sourceType": "org.springframework.boot.autoconfigure.flyway.FlywayProperties"
+    },
+    {
+      "name": "spring.flyway.locations",
+      "type": "java.util.List<java.lang.String>",
+      "description": "Classpath locations of versioned Flyway migrations.",
+      "sourceType": "org.springframework.boot.autoconfigure.flyway.FlywayProperties",
+      "defaultValue": "classpath:db/migration"
+    },
+    {
+      "name": "vaadin.productionMode",
+      "type": "java.lang.Boolean",
+      "description": "Vaadin deployment mode. false: Vite dev server with hot reload. true: pre-built production bundle (set via the production Maven profile).",
+      "defaultValue": false
+    }
+  ]
+}
