@@ -440,10 +440,10 @@ Split-base rationale: `jammy` builder for reliable Vaadin frontend Node builds a
 - [x] Add `docker-compose.dev.yml` (local PG16) + `application-dev.yml`; verify Flyway baseline runs locally.
 
 ### Phase 1: Domain Entities, Migrations & Security (Day 2)
-- [ ] Write Flyway `V1__init_schema.sql` (wards, roster_periods, staff, shift_types, shift_assignments, swap_requests, leave_requests, shift_requirements, audit_log) with UNIQUEs, CHECKs, indexes from §4.1.
-- [ ] Implement JPA Entities with `@Version`, `end_day_offset`, nullable OPEN-board fields, `EXPIRED` status, audit fields.
-- [ ] Configure Spring Security with `VaadinWebSecurity`, form login, `UserDetailsService`, 2-role `@RolesAllowed` views.
-- [ ] Implement seed service (`demo` profile: 16 staff + roster + swaps + leave; `prod`: admin from env vars only).
+- [x] Write Flyway `V1__init_schema.sql` (wards, roster_periods, staff, shift_types, shift_assignments, swap_requests, leave_requests, shift_requirements, audit_log) with UNIQUEs, CHECKs, indexes from §4.1.
+- [x] Implement JPA Entities with `@Version`, `end_day_offset`, nullable OPEN-board fields, `EXPIRED` status, audit fields.
+- [x] Configure Spring Security with `VaadinWebSecurity`, form login, `UserDetailsService`, 2-role `@RolesAllowed` views.
+- [x] Implement seed service (`demo` profile: 16 staff + roster + swaps + leave; `prod`: admin from env vars only).
 
 ### Phase 2: The Interactive Schedule Board (Days 3–4)
 - [ ] Build Monthly Ward Schedule Grid (frozen first column, virtual scroll, single-tap dialog + desktop double-click shortcut).

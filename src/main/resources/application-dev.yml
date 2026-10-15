@@ -6,10 +6,10 @@ spring:
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
+  # No spring.flyway.url here on purpose: Flyway follows the primary DataSource,
+  # which lets @ServiceConnection tests migrate their container. Only prod needs
+  # a separate FLYWAY_URL (Neon direct endpoint, bypassing PgBouncer).
   flyway:
-    url: ${spring.datasource.url}
-    user: ${spring.datasource.username}
-    password: ${spring.datasource.password}
     locations: classpath:db/migration
 
 vaadin:

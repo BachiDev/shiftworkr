@@ -1,0 +1,29 @@
+package dev.bachi.shiftworkr.security;
+
+import dev.bachi.shiftworkr.domain.StaffMember;
+import dev.bachi.shiftworkr.repository.StaffMemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class StaffUserDetailsService implements UserDetailsService {
+
+  private final StaffMemberRepository staffMembers;
+
+  @Override
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    StaffMember staff = staffMembers.findByEmailIgnoreCase(email)
+        .filter(StaffMember::isActive)
+        .orElseThrow(() -> new UsernameNotFoundException("Unknown user: " + email));
+    // roles(..) adds the ROLE_ prefix: ADMIN -> ROLE_ADMIN, NURSE -> ROLE_NURSE.
+    return User.withUsername(staff.getEmail())
+        .password(staff.getPasswordHash())
+        .roles(staff.getRole().name())
+        .build();
+  }
+}

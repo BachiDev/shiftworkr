@@ -19,7 +19,7 @@ public class MainLayout extends AppLayout {
     H1 title = new H1("ShiftWorkr");
     title.getStyle().set("font-size", "var(--lumo-font-size-l)").set("margin", "0");
 
-    Span profilePill = new Span("Phase 0 · no auth yet");
+    Span profilePill = new Span("Phase 1 · secured");
     profilePill.addClassName("profile-pill");
 
     HorizontalLayout navbar = new HorizontalLayout(toggle, title, profilePill);

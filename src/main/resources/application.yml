@@ -13,10 +13,6 @@ spring:
     # Deliberately false: every environment starts from versioned V1 migrations,
     # never by baselining a pre-existing schema.
     baseline-on-migrate: false
-  security:
-    user:
-      name: admin
-      password: admin
 
 server:
   forward-headers-strategy: framework

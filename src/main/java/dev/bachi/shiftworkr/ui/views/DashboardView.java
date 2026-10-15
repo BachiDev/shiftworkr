@@ -6,10 +6,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import dev.bachi.shiftworkr.ui.MainLayout;
+import jakarta.annotation.security.RolesAllowed;
 
 /** Phase 0 placeholder — schedule board lands in Phase 2. */
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Dashboard | ShiftWorkr")
+@RolesAllowed({"ADMIN", "NURSE"})
 public class DashboardView extends VerticalLayout {
 
   public DashboardView() {
