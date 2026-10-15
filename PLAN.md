@@ -23,7 +23,7 @@ Freelance enterprise clients don't hire Java full-stack developers for simple CR
 
 ## 2. Visual Design System & Brand Coherence
 
-The UI strictly adheres to the design tokens established in [bachi.dev](file:///C:/Users/Fabian/dev/bachidev-github-io/PLAN.md), adapted into Vaadin's Lumo theme engine via custom CSS tokens (`frontend/themes/shiftworkr/styles.css`).
+The UI strictly adheres to the design tokens established in [bachi.dev](file:///C:/Users/Fabian/dev/bachidev-github-io/PLAN.md), adapted into Vaadin's Lumo theme engine via custom CSS tokens (`src/main/frontend/shiftworkr-styles.css`, loaded with `@CssImport` in the Vaadin 25 theming model).
 
 ```
                 ┌──────────────────────────────────────────────┐

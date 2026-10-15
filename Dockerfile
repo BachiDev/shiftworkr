@@ -19,7 +19,6 @@ WORKDIR /app
 COPY pom.xml ./
 RUN mvn dependency:go-offline -B
 COPY src src
-COPY frontend frontend
 RUN mvn clean package -Pproduction -DskipTests
 
 # Stage 2: Minimal Production JRE Runtime (alpine = smallest CVE surface;

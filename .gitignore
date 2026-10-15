@@ -10,7 +10,6 @@ vite.config.ts
 vite.generated.ts
 types.d.ts
 tsconfig.json
-frontend/generated/
-frontend/index.html
+src/main/frontend/generated/
 .DS_Store
 Thumbs.db

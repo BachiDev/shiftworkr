@@ -162,10 +162,25 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <!-- Zero-warning policy: any javac warning (rawtypes, unchecked, ...)
-               fails the build locally and in CI, so IDE warnings can't slip through -->
+          <!-- Zero-warning policy: any javac warning (rawtypes, unchecked, deprecation, ...)
+               fails the build locally and in CI, so IDE warnings can't slip through.
+               -Xlint:all enables every check; -options keeps the routine
+               annotation-processing note quiet, -processing keeps Vaadin/Spring
+               annotations (handled by runtime scanning, not APT) from tripping
+               the gate — Lombok remains the only active processor. -serial is
+               out because Vaadin UI classes are session-serialized by the
+               framework with default UIDs; durable cross-version Java
+               serialization is not a supported scenario (single instance,
+               no session replication). -this-escape is out because building
+               component trees via add()/addToNavbar() inside constructors is
+               the canonical Vaadin idiom — every view would trip it; Spring
+               services use final-field injection and never call overridable
+               methods from constructors. -->
           <showWarnings>true</showWarnings>
           <failOnWarning>true</failOnWarning>
+          <compilerArgs>
+            <arg>-Xlint:all,-options,-processing,-serial,-this-escape</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
