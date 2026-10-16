@@ -161,6 +161,9 @@
               <artifactId>lombok</artifactId>
             </exclude>
           </excludes>
+          <!-- Dev-mode needs optional deps (vaadin-dev, devtools) on the classpath.
+               Production profile below flips this back to false for a lean image. -->
+          <includeOptional>true</includeOptional>
         </configuration>
       </plugin>
       <plugin>
@@ -234,6 +237,13 @@
       <id>production</id>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+              <includeOptional>false</includeOptional>
+            </configuration>
+          </plugin>
           <plugin>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-maven-plugin</artifactId>
