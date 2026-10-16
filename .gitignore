@@ -1,6 +1,8 @@
 target/
 .idea/
-.vscode/
+.vscode/*
+!.vscode/launch.json
+!.vscode/extensions.json
 *.iml
 .env
 node_modules/
