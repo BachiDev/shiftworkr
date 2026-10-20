@@ -1,0 +1,35 @@
+name: Qodana
+
+# Runs the IntelliJ inspection engine in CI, covering the checks javac's
+# -Xlint gate cannot see: unused declarations, data-flow/nullness, and lambda
+# refactors. CSS type selectors are checked by stylelint in ci.yml.
+#
+# The Community linter is free and needs no QODANA_TOKEN; add the secret only
+# if you later switch to a paid linter and want results in Qodana Cloud.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  qodana:
+    name: Qodana (IntelliJ inspections)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # Analyze the actual PR commit rather than the merge commit.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Qodana scan
+        uses: JetBrains/qodana-action@v2026.2
+        with:
+          # PRs analyze only changed files; main gets a full scan.
+          pr-mode: ${{ github.event_name == 'pull_request' }}
+          args: --fail-threshold 0

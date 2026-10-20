@@ -16,5 +16,7 @@ src/main/frontend/generated/
 # Vaadin's pre-compiled dev bundle goes stale silently (served instead of fresh
 # sources with no warning); always rebuild locally, never commit.
 src/main/bundles/dev.bundle
+# Qodana local results (CI writes its report to the runner temp dir)
+.qodana/
 .DS_Store
 Thumbs.db

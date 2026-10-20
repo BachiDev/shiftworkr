@@ -29,6 +29,8 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: maven
+      - name: Lint CSS type selectors
+        run: npx --yes stylelint@16.26.1 src/main/frontend/styles.css --config stylelint.config.mjs
       - name: Verify (unit + Testcontainers + Karibu)
         run: mvn -B verify
       - name: Migration check (Flyway migrate + validate on ephemeral PG)

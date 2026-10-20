@@ -32,7 +32,7 @@ public class StaffMember {
   @JoinColumn(name = "ward_id")
   private Ward ward;
 
-  @Column(nullable = false, unique = true, length = 255)
+  @Column(nullable = false, unique = true)
   private String email;
 
   @Column(name = "password_hash", nullable = false)

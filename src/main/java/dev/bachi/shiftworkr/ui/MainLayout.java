@@ -8,7 +8,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
-import dev.bachi.shiftworkr.ui.views.DashboardView;
+import dev.bachi.shiftworkr.ui.views.ScheduleBoardView;
 import jakarta.annotation.security.RolesAllowed;
 
 /** Phase 0 responsive shell: sidebar nav + top bar + user profile pill placeholder. */
@@ -31,7 +31,7 @@ public class MainLayout extends AppLayout {
     addToNavbar(navbar);
 
     SideNav nav = new SideNav();
-    nav.addItem(new SideNavItem("Dashboard", DashboardView.class));
+    nav.addItem(new SideNavItem("Schedule", ScheduleBoardView.class));
     addToDrawer(nav);
   }
 }

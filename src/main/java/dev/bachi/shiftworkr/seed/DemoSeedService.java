@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
@@ -87,6 +88,7 @@ public class DemoSeedService implements ApplicationRunner {
       boolean lead, int hours) {
   }
 
+  @NullMarked
   @Override
   @Transactional
   public void run(ApplicationArguments args) {

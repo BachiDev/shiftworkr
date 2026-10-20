@@ -446,9 +446,9 @@ Split-base rationale: `jammy` builder for reliable Vaadin frontend Node builds a
 - [x] Implement seed service (`demo` profile: 16 staff + roster + swaps + leave; `prod`: admin from env vars only).
 
 ### Phase 2: The Interactive Schedule Board (Days 3–4)
-- [ ] Build Monthly Ward Schedule Grid (frozen first column, virtual scroll, single-tap dialog + desktop double-click shortcut).
-- [ ] Implement color-coded shift badges (`shift-early/late/night/off/vac/sick`) + hard (rose) vs soft (amber) icons.
-- [ ] Create Shift Assignment Dialog with shift-type selector, lead-qualified hint, live compliance preview.
+- [x] Build Monthly Ward Schedule Grid (frozen first column, virtual scroll, single-tap dialog + desktop double-click shortcut).
+- [x] Implement color-coded shift badges (`shift-early/late/night/off/vac/sick`) + hard (rose) vs soft (amber) icons. *Badges done; violation icons integrate with the Phase 4 rule engine.*
+- [ ] Create Shift Assignment Dialog with shift-type selector, lead-qualified hint, live compliance preview. *Selector, note, and lead hint shipped; live preview pending Phase 4.*
 - [ ] Implement Sticky Ward Coverage Bar (debounced, cached requirements, lead alert on E/L/N).
 - [ ] Enable `@Push` for roster broadcasts; scope updates per ward.
 

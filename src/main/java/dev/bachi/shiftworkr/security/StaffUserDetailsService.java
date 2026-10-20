@@ -2,6 +2,7 @@ package dev.bachi.shiftworkr.security;
 
 import dev.bachi.shiftworkr.domain.StaffMember;
 import dev.bachi.shiftworkr.repository.StaffMemberRepository;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +18,7 @@ public class StaffUserDetailsService implements UserDetailsService {
     this.staffMembers = staffMembers;
   }
 
+  @NullMarked
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     StaffMember staff = staffMembers.findByEmailIgnoreCase(email)

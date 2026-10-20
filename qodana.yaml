@@ -1,0 +1,17 @@
+version: "1.0"
+
+# Qodana runs the IntelliJ inspection engine, so it catches the same Java
+# things the IDE flags (unused members, data-flow/nullness, lambda refactors)
+# that javac's -Xlint cannot see. CSS type selectors are guarded separately by
+# stylelint in CI (selector-type-no-unknown).
+linter: jetbrains/qodana-jvm-community:2026.2
+
+profile:
+  name: qodana.recommended
+
+exclude:
+  - name: All
+    paths:
+      - target
+      - node_modules
+      - src/main/frontend/generated

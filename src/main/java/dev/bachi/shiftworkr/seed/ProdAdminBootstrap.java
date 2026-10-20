@@ -5,6 +5,7 @@ import dev.bachi.shiftworkr.domain.Role;
 import dev.bachi.shiftworkr.domain.StaffMember;
 import dev.bachi.shiftworkr.repository.ShiftTypeRepository;
 import dev.bachi.shiftworkr.repository.StaffMemberRepository;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -39,6 +40,7 @@ public class ProdAdminBootstrap implements ApplicationRunner {
   @Value("${ADMIN_PASSWORD:}")
   private String adminPassword;
 
+  @NullMarked
   @Override
   @Transactional
   public void run(ApplicationArguments args) {
